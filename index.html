@@ -105,34 +105,111 @@
       <figure class="card invite" aria-label="Wedding invitation">
   <img src="InduRavi.png"
        alt="Sai Indira weds Ravindra — Oct 12, 11:28 AM. Venue: Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM at the venue."
-       id="zoomImage"
+       id="inviteImg"
        style="width:100%; max-width:768px; height:auto; display:block; margin:0 auto; cursor:zoom-in"
        loading="eager" decoding="async">
 </figure>
 
-<script>
-  const img = document.getElementById("zoomImage");
+<!-- Fallback overlay (hidden by default) -->
+<div id="fsOverlay" class="fs-overlay" aria-hidden="true" role="dialog">
+  <img id="fsImg" src="InduRavi.png" alt="Wedding Invitation (fullscreen)">
+</div>
 
-  img.addEventListener("click", async () => {
-    if (!document.fullscreenElement) {
-      // Enter fullscreen
-      if (img.requestFullscreen) {
-        await img.requestFullscreen();
-      } else if (img.webkitRequestFullscreen) { 
-        await img.webkitRequestFullscreen(); // Safari
-      }
-      img.style.cursor = "zoom-out";
-    } else {
-      // Exit fullscreen
-      if (document.exitFullscreen) {
-        await document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) { 
-        await document.webkitExitFullscreen(); // Safari
-      }
-      img.style.cursor = "zoom-in";
+<style>
+  .fs-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.95);
+    display: none; align-items: center; justify-content: center; z-index: 9999;
+    /* Allow pinch-zoom on iOS overlay */
+    -webkit-overflow-scrolling: touch;
+  }
+  .fs-overlay.show { display: flex; }
+  .fs-overlay img {
+    max-width: 100vw; max-height: 100vh; width: auto; height: auto;
+    object-fit: contain;
+    /* Make it obvious you can exit */
+    cursor: zoom-out;
+  }
+  /* Optional: prevent background scroll when overlay open */
+  body.noscroll { overflow: hidden; touch-action: none; }
+</style>
+
+<script>
+  (function () {
+    const img = document.getElementById('inviteImg');
+    const overlay = document.getElementById('fsOverlay');
+
+    function canUseFullscreen() {
+      // feature-detect Fullscreen API
+      return document.fullscreenEnabled ||
+             document.webkitFullscreenEnabled ||
+             document.msFullscreenEnabled ||
+             false;
     }
-  });
+
+    async function enterFullscreen(el) {
+      try {
+        if (el.requestFullscreen) return await el.requestFullscreen();
+        if (el.webkitRequestFullscreen) return await el.webkitRequestFullscreen();
+        if (el.msRequestFullscreen) return await el.msRequestFullscreen();
+        throw new Error('No FS API');
+      } catch (e) {
+        throw e;
+      }
+    }
+
+    async function exitFullscreen() {
+      try {
+        if (document.exitFullscreen) return await document.exitFullscreen();
+        if (document.webkitExitFullscreen) return await document.webkitExitFullscreen();
+        if (document.msExitFullscreen) return await document.msExitFullscreen();
+      } catch (e) {}
+    }
+
+    function openOverlay() {
+      document.body.classList.add('noscroll');
+      overlay.classList.add('show');
+    }
+    function closeOverlay() {
+      overlay.classList.remove('show');
+      document.body.classList.remove('noscroll');
+    }
+
+    // Toggle behavior on tap/click
+    img.addEventListener('click', async () => {
+      if (canUseFullscreen()) {
+        // Try native fullscreen first
+        if (!document.fullscreenElement) {
+          try {
+            await enterFullscreen(img);
+            img.style.cursor = 'zoom-out';
+          } catch {
+            // If it fails (common on iPhone/WKWebView), use overlay
+            openOverlay();
+          }
+        } else {
+          await exitFullscreen();
+          img.style.cursor = 'zoom-in';
+        }
+      } else {
+        // No FS API -> overlay fallback
+        openOverlay();
+      }
+    });
+
+    // Clicking overlay exits
+    overlay.addEventListener('click', async () => {
+      // If somehow in native fullscreen, exit it; otherwise just close overlay
+      if (document.fullscreenElement) await exitFullscreen();
+      closeOverlay();
+    });
+
+    // Keep cursor state in sync when user exits with OS UI (ESC, gesture)
+    document.addEventListener('fullscreenchange', () => {
+      img.style.cursor = document.fullscreenElement ? 'zoom-out' : 'zoom-in';
+    });
+  })();
 </script>
+
 
 
 
