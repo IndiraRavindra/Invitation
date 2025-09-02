@@ -103,15 +103,32 @@
     <div class="frame">
       <!-- LEFT: your invitation image -->
       <figure class="card invite" aria-label="Wedding invitation">
-           <!-- Tap opens zoomable overlay (works well on iPhone Safari) -->
-           <a href="InduRavi.png" data-lightbox="invite"
-             data-title="Sai Indira weds Ravindra — Oct 12, 11:28 AM · Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM.">
-              <img src="InduRavi.png"
-                 alt="Sai Indira weds Ravindra — Oct 12, 11:28 AM. Venue: Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM at the venue."
-                 style="width:100%; max-width:768px; height:auto; display:block; margin:0 auto; cursor:zoom-in"
-                 loading="eager" decoding="async">
-            </a>
-      </figure>
+  <img src="InduRavi.png"
+       alt="Sai Indira weds Ravindra — Oct 12, 11:28 AM. Venue: Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM at the venue."
+       class="zoomable"
+       style="width:100%; max-width:768px; height:auto; display:block; margin:0 auto; cursor:zoom-in"
+       loading="eager" decoding="async">
+</figure>
+
+<style>
+  .zoomable {
+    transition: transform 0.3s ease;
+  }
+  .zoomable.zoomed {
+    transform: scale(1.8); /* Adjust zoom level */
+    cursor: zoom-out;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const img = document.querySelector(".zoomable");
+    img.addEventListener("click", () => {
+      img.classList.toggle("zoomed");
+    });
+  });
+</script>
+
 
       <!-- RIGHT: sidebar with icon actions -->
       <aside class="card sidebar" aria-label="Quick actions">
