@@ -81,12 +81,13 @@
     <div class="frame">
       <!-- LEFT: your invitation image -->
       <figure class="card invite" aria-label="Wedding invitation">
-        <!-- If index.html is in the same folder as the image, this is fine -->
+        <!-- Invitation image with fullscreen zoom -->
         <img src="InduRavi.png"
              alt="Sai Indira weds Ravindra — Oct 12, 11:28 AM. Venue: Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM at the venue."
-             width="768" height="1082" loading="eager" decoding="async" />
+             style="width:100%; max-width:768px; cursor:zoom-in"
+             loading="eager" decoding="async"
+             onclick="this.requestFullscreen()" />
       </figure>
-
       <!-- RIGHT: sidebar with icon actions -->
       <aside class="card sidebar" aria-label="Quick actions">
         <div class="title">Quick actions</div>
