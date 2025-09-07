@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="icons8-confetti-3d-fluency-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="icons8-confetti-3d-fluency-32.png?v=2">
 
-  <!-- Open Graph -->
+  <!-- Open Graph (for previews on WhatsApp/FB/LinkedIn) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Sai Indira & Ravindra — Wedding Invitation" />
   <meta property="og:description" content="12 Oct, 11:28 AM • Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad." />
@@ -34,6 +34,22 @@
   <!-- Theme color -->
   <meta name="theme-color" content="#f7f3e9" />
 
+  <!-- Lightbox2 (CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/lightbox2@2.11.4/dist/css/lightbox.min.css">
+  <script src="https://unpkg.com/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      lightbox.option({
+        resizeDuration: 200,
+        fadeDuration: 200,
+        imageFadeDuration: 200,
+        wrapAround: true,
+        disableScrolling: true,
+        alwaysShowNavOnTouchDevices: true
+      });
+    });
+  </script>
+
   <style>
     :root{
       --bg:#f7f3e9; --ink:#2c2c2c; --muted:#6c625c;
@@ -50,8 +66,7 @@
     .frame{ display:grid; gap:18px; align-items:start; grid-template-columns: 1fr minmax(260px,320px); }
     .card{ background:var(--card); border:1px solid var(--stroke); border-radius:16px; box-shadow:0 10px 28px rgba(0,0,0,.06); overflow:hidden; }
     .invite{ line-height:0; text-align:center }
-    .invite img{ display:block; width:100%; max-width:768px; height:auto; cursor:zoom-in; transition:transform 0.3s ease }
-    .invite img.zoomed{ transform:scale(1.8); cursor:zoom-out }
+    .invite img{ display:block; width:100%; max-width:768px; height:auto; cursor:pointer; }
     .sidebar{ padding:16px }
     .title{ font-weight:700; font-size:18px; margin:4px 0 14px 6px }
     .list{ display:grid; gap:12px; margin:0; padding:0; list-style:none }
@@ -67,54 +82,68 @@
 <body>
   <div class="shell">
     <div class="frame">
-      <!-- LEFT: Invitation image -->
+      <!-- LEFT: Invitation image with Lightbox -->
       <figure class="card invite" aria-label="Wedding invitation">
-        <img src="InduRavi.png"
-             alt="Sai Indira weds Ravindra — Oct 12, 11:28 AM. Venue: Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM at the venue."
-             id="inviteImg"
-             loading="eager" decoding="async">
+        <a href="InduRavi.png" data-lightbox="invite" data-title="Sai Indira & Ravindra — Wedding Invitation">
+          <img src="InduRavi.png"
+               alt="Sai Indira weds Ravindra — Oct 12, 11:28 AM. Venue: Shri Kutchi Mitra Mandal, Ramkoti, Hyderabad. Lunch 12:30 PM at the venue."
+               id="inviteImg"
+               loading="eager" decoding="async">
+        </a>
       </figure>
 
-      <!-- RIGHT: sidebar -->
+      <!-- RIGHT: sidebar with quick actions -->
       <aside class="card sidebar" aria-label="Quick actions">
         <div class="title">Quick actions</div>
         <ul class="list">
+          <!-- Add to Google Calendar -->
           <li class="item">
             <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Sai%20Indira%20%26%20Ravindra%20Wedding&dates=20251012T112800/20251012T143000&ctz=Asia/Kolkata&location=Shri%20Kutchi%20Mitra%20Mandal%2C%20Ramkoti%2C%20Hyderabad&details=Lunch%20from%2012%3A30%20pm%20onwards%20at%20the%20venue"
                target="_blank" rel="noopener">
               <span class="icon">📅</span>
-              <span class="txt"><b>Add to Calendar</b><small>12 Oct, 11:28 AM — Hyderabad</small></span>
+              <span class="txt">
+                <b>Add to Calendar</b>
+                <small>12 Oct, 11:28 AM — Hyderabad</small>
+              </span>
             </a>
           </li>
+
+          <!-- Open Google Maps -->
           <li class="item">
             <a href="https://www.google.com/maps/dir/?api=1&destination=Shri+Kutchi+Mitra+Mandal,+Ramkoti,+Hyderabad"
                target="_blank" rel="noopener">
               <span class="icon">📍</span>
-              <span class="txt"><b>Open in Google Maps</b><small>Shri Kutchi Mitra Mandal</small></span>
+              <span class="txt">
+                <b>Open in Google Maps</b>
+                <small>Shri Kutchi Mitra Mandal</small>
+              </span>
             </a>
           </li>
+
+          <!-- YouTube Live -->
           <li class="item">
             <a href="https://www.youtube.com/" target="_blank" rel="noopener">
               <span class="icon">▶️</span>
-              <span class="txt"><b>YouTube Live</b><small>Watch the wedding livestream</small></span>
+              <span class="txt">
+                <b>YouTube Live</b>
+                <small>Watch the wedding livestream</small>
+              </span>
             </a>
           </li>
+
+          <!-- Call -->
           <li class="item">
             <a href="tel:+918919343665">
               <span class="icon">📞</span>
-              <span class="txt"><b>Call</b><small>Questions or directions</small></span>
+              <span class="txt">
+                <b>Call</b>
+                <small>Questions or directions</small>
+              </span>
             </a>
           </li>
         </ul>
       </aside>
     </div>
   </div>
-
-  <script>
-    const img = document.getElementById("inviteImg");
-    img.addEventListener("click", () => {
-      img.classList.toggle("zoomed");
-    });
-  </script>
 </body>
 </html>
